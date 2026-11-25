@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exotic Drive – MVP (Nexus Tech)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9ebef;--card:#fff;--tx:#111318;--mut:#555b68;--ac:#c4161c;--acx:#fff;--bd:#d3d6dc;--ok:#157347;--sh:0 10px 30px rgba(15,18,28,.10);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0c0f;--card:#16171c;--tx:#f1f2f4;--mut:#aab0bc;--ac:#ff5a52;--acx:#14141a;--bd:#2c2e37;--ok:#5ad18a;--sh:0 10px 30px rgba(0,0,0,.45)}}
+:root[data-theme="dark"]{--bg:#0b0c0f;--card:#16171c;--tx:#f1f2f4;--mut:#aab0bc;--ac:#ff5a52;--acx:#14141a;--bd:#2c2e37;--ok:#5ad18a;--sh:0 10px 30px rgba(0,0,0,.45)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Barlow,system-ui,-apple-system,Segoe UI,sans-serif;font-size:16px;min-height:100vh}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;margin:0;letter-spacing:.01em;line-height:1.05}
+.shell{display:grid;grid-template-columns:1fr;max-width:1100px;margin:0 auto;padding:16px;gap:24px}
+.brand{display:none}
+.col{width:100%;max-width:460px;margin:0 auto}
+@media(min-width:960px){.shell{grid-template-columns:1fr 460px;align-items:start;padding:32px}.brand{display:flex;flex-direction:column;gap:22px;position:sticky;top:32px;padding:40px;border-radius:24px;background:linear-gradient(150deg,#16171c,#2a0b0e);color:#f1f2f4;min-height:640px;overflow:hidden}.brand h2{font-size:72px}.brand p{color:#c4c8d2;font-size:18px;margin:0;max-width:420px}.brand li{margin:8px 0;color:#e6e8ee}.brand ul{padding-left:20px;margin:0}.col{margin:0}}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.logo{display:flex;align-items:center;gap:10px}.logo b{font-family:"Barlow Condensed",sans-serif;font-size:28px;letter-spacing:.02em}
+.logo i{width:30px;height:30px;border-radius:8px;background:var(--ac);display:grid;place-items:center;color:var(--acx);font-style:normal;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px}
+.tools{display:flex;gap:6px}
+.tb{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;cursor:pointer;position:relative}
+.tb .n{position:absolute;top:-6px;right:-6px;background:var(--ac);color:var(--acx);border-radius:999px;font-size:11px;min-width:18px;height:18px;display:grid;place-items:center;font-weight:700}
+.steps{display:flex;gap:4px;margin-bottom:12px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--bd);transition:background .3s}.steps i.on{background:var(--ac)}
+.app{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:20px;min-height:600px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--sh)}
+.app>*{animation:up .4s ease-out both}.app>*:nth-child(2){animation-delay:.05s}.app>*:nth-child(3){animation-delay:.1s}.app>*:nth-child(4){animation-delay:.15s}.app>*:nth-child(n+5){animation-delay:.2s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+.app h2{font-size:32px}.mut{color:var(--mut);font-size:14px;margin:0}
+label{font-size:14px;font-weight:600;display:block;margin-bottom:4px}
+input[type=email],input[type=password],input[type=date],select{width:100%;padding:12px;font:inherit;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
+.btn{padding:14px;font:inherit;font-size:16px;font-weight:600;border:0;border-radius:12px;background:var(--ac);color:var(--acx);cursor:pointer;width:100%;transition:transform .15s}.btn:active{transform:scale(.98)}
+.btn.sec{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.btn.dng{background:#b3121a;color:#fff}
+.grow{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--bd);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;background:var(--bg);color:var(--tx);cursor:pointer}
+.chip.on{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:600}
+span.chip{cursor:default}
+.hero{border-radius:16px;overflow:hidden}
+.im svg{display:block;width:100%;height:auto}
+.car{display:flex;flex-direction:column;border:1px solid var(--bd);border-radius:16px;cursor:pointer;background:var(--bg);color:var(--tx);text-align:left;width:100%;font:inherit;padding:0;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.car:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.car .inf{padding:12px 14px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.car b{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:700}
+.car .pr{text-align:right;font-weight:600}.car .pr small{display:block;color:var(--mut);font-weight:400}
+.badge{position:absolute;top:10px;left:10px;background:var(--ac);color:var(--acx);font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.rel{position:relative}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spec{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}.spec small{display:block;color:var(--mut);font-size:12px}.spec b{font-size:17px}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.tot{font-size:24px;font-weight:700}
+.seg{display:flex;gap:8px}.seg .chip{flex:1;text-align:center;padding:10px;border-radius:10px}
+.err{color:var(--ac);font-size:14px;min-height:18px;margin:0}
+.ok{color:var(--ok)}
+.code{font-family:"Barlow Condensed",sans-serif;font-size:42px;font-weight:700;letter-spacing:.08em}
+.ticket{border:2px dashed var(--bd);border-radius:16px;padding:14px;background:var(--bg);text-align:center}
+.chk{width:64px;height:64px;margin:0 auto}.chk circle,.chk path{fill:none;stroke:var(--ok);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:200;stroke-dashoffset:200;animation:dr .8s .2s ease-out forwards}.chk path{animation-delay:.7s;stroke-dasharray:60;stroke-dashoffset:60}
+@keyframes dr{to{stroke-dashoffset:0}}
+.bk{border:1px solid var(--bd);border-radius:14px;padding:12px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.bk .t{display:flex;gap:10px;align-items:center}.bk .t .im{width:92px;flex:none;border-radius:10px;overflow:hidden}
+.st{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--ok);color:var(--ok)}.st.c{border-color:var(--mut);color:var(--mut)}
+.note{background:var(--bg);border-left:4px solid var(--ac);border-radius:8px;padding:10px 12px;font-size:14px}
+.ov{position:fixed;inset:0;background:rgba(5,6,10,.6);display:grid;place-items:center;padding:16px;z-index:50;animation:up .2s both}
+.dlg{background:var(--card);color:var(--tx);border-radius:18px;padding:22px;max-width:400px;width:100%;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sh)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.3s;z-index:60;font-size:15px}#toast.on{opacity:1;transform:translate(-50%,0)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="shell">
+<aside class="brand" aria-hidden="true"><div class="logo"><i>E</i><b>Exotic Drive</b></div><h2>Dirija o extraordinário.</h2><p>Carros exóticos por dia, com o total, o seguro e a caução claros antes de você reservar.</p><div class="im" id="brandcar"></div><ul><li>Seguro incluso em todos os carros</li><li>Caução só pré-autorizada, nunca cobrada</li><li>Cancelamento grátis até 48 h antes</li></ul></aside>
+<div class="col"><div class="top"><div class="logo"><i>E</i><b>Exotic Drive</b></div>
+<div class="tools"><button class="tb" id="bk" onclick="go(6)">Reservas<span class="n" id="cnt"></span></button><button class="tb" onclick="theme()" aria-label="Alternar tema">Tema</button></div></div>
+<div class="steps" id="steps"></div><main class="app" id="app"></main></div></div>
+<div id="modal"></div><div id="toast" role="status"></div>
+<script>
+var CARS=[
+{id:"911",n:"Porsche 911 Carrera S",p:2400,hp:450,s:2,t:"Automático PDK",c:["Esportivo","Conversível"],k:200,d:5000,col:"#c4161c",mk:"Porsche",sp:"0–100 km/h em 3,5 s",ft:[["Motor","3.0 flat-6 biturbo"],["Torque","55,1 kgfm"],["0–100 km/h","3,5 s"],["Velocidade máxima","308 km/h"],["Tração","Traseira"],["Porta-malas","132 L (dianteiro)"],["Combustível","Gasolina"]]},
+{id:"hur",n:"Lamborghini Huracán",p:4800,hp:640,s:2,t:"Automático DCT",c:["Esportivo"],k:150,d:12000,col:"#e0a800",mk:"Lamborghini",sp:"0–100 km/h em 3,2 s",ft:[["Motor","5.2 V10 aspirado"],["Torque","61,2 kgfm"],["0–100 km/h","3,2 s"],["Velocidade máxima","325 km/h"],["Tração","Integral"],["Porta-malas","100 L (dianteiro)"],["Combustível","Gasolina"]]},
+{id:"tsp",n:"Tesla Model S Plaid",p:1900,hp:1020,s:5,t:"Elétrico 1 marcha",c:["Elétrico","Esportivo"],k:250,d:6000,col:"#2d6cdf",mk:"Tesla",sp:"0–100 km/h em 2,1 s · 600 km de autonomia",ft:[["Motor","3 motores elétricos"],["0–100 km/h","2,1 s"],["Velocidade máxima","322 km/h"],["Autonomia","cerca de 600 km"],["Tração","Integral"],["Porta-malas","cerca de 790 L"],["Recarga","Tomada, wallbox ou rápida"]]},
+{id:"por",n:"Ferrari Portofino M",p:4200,hp:620,s:2,t:"Automático DCT",c:["Conversível","Esportivo"],k:150,d:12000,col:"#b30e1b",mk:"Ferrari",sp:"Capota rígida retrátil",ft:[["Motor","3.9 V8 biturbo"],["Torque","76,5 kgfm"],["0–100 km/h","3,5 s"],["Velocidade máxima","320 km/h"],["Tração","Traseira"],["Porta-malas","292 L"],["Combustível","Gasolina"]]},
+{id:"tay",n:"Porsche Taycan Turbo S",p:2600,hp:761,s:4,t:"Elétrico 2 marchas",c:["Elétrico"],k:250,d:7000,col:"#3b3f4a",mk:"Porsche",sp:"0–100 km/h em 2,8 s · 500 km de autonomia",ft:[["Motor","2 motores elétricos"],["Bateria","93,4 kWh"],["0–100 km/h","2,8 s"],["Velocidade máxima","260 km/h"],["Autonomia","cerca de 500 km"],["Tração","Integral"],["Recarga","Tomada, wallbox ou rápida"]]},
+{id:"sl",n:"Mercedes-AMG SL 63",p:3100,hp:585,s:2,t:"Automático 9G",c:["Conversível"],k:200,d:8000,col:"#8a97a8",mk:"Mercedes-AMG",sp:"Capota de lona elétrica",ft:[["Motor","4.0 V8 biturbo"],["Torque","81,6 kgfm"],["0–100 km/h","3,6 s"],["Velocidade máxima","315 km/h"],["Tração","Integral 4MATIC+"],["Capota","Lona, abertura elétrica"],["Combustível","Gasolina"]]}];
+var INS={basic:{n:"Básico",d:80},prem:{n:"Premium",d:150}},FEE=0.04,DEL=250,DRV=60;
+var S={user:null,city:"Recife – PE",d1:"",d2:"",cat:"Todos",sort:"rec",car:null,ins:"prem",ex:{del:false,drv:false},last:null,tab:"Todas",scr:0};
+var $=function(id){return document.getElementById(id)};
+function ld(k,f){try{var v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function money(v){return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function iso(o){var d=new Date();d.setDate(d.getDate()+o);return d.toISOString().slice(0,10)}
+function days(a,b){return Math.round((new Date(b)-new Date(a))/864e5)}
+function fdate(s){var p=s.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function carById(id){return CARS.filter(function(c){return c.id===id})[0]}
+function toast(m){var t=$("toast");t.textContent=m;t.className="on";clearTimeout(window._t);window._t=setTimeout(function(){t.className=""},2800)}
+function svg(c,u){var cv=c.c.indexOf("Conversível")>-1,ev=c.c.indexOf("Elétrico")>-1,w=cv?'<path d="M72 30 L90 27 L96 43 L60 43 Z" fill="#0b0c0f" opacity=".7"/>':'<path d="M70 31 L90 28 L90 43 L58 43 Z M96 28 L122 28 Q132 30 138 43 L96 43 Z" fill="#0b0c0f" opacity=".78"/>';
+var i="g"+c.id+u;return'<svg viewBox="0 0 200 100" role="img" aria-label="Ilustração do '+esc(c.n)+'"><defs><linearGradient id="'+i+'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c.col+'"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient><radialGradient id="'+i+'r" cx=".5" cy="1" r="1"><stop offset="0" stop-color="'+c.col+'" stop-opacity=".45"/><stop offset="1" stop-color="'+c.col+'" stop-opacity="0"/></radialGradient></defs><rect width="200" height="100" fill="#14151a"/><rect width="200" height="100" fill="url(#'+i+'r)"/><rect y="78" width="200" height="22" fill="#0b0c0f"/><path d="M0 88 H200" stroke="#444" stroke-width="1" stroke-dasharray="14 10"/><ellipse cx="100" cy="80" rx="82" ry="4" fill="#000" opacity=".6"/><path d="M18 70 L22 56 Q26 50 42 48 L66 32 Q74 28 92 28 L124 28 Q140 30 150 42 L172 48 Q184 51 186 62 L186 70 Z" fill="url(#'+i+'b)"/><path d="M26 56 Q60 50 100 52 Q150 52 182 58" stroke="#fff" stroke-opacity=".25" fill="none" stroke-width="1.2"/>'+w+(ev?'<rect x="104" y="58" width="16" height="3" rx="1.5" fill="#7fd1ff"/>':'')+'<rect x="176" y="54" width="9" height="4" rx="2" fill="#fff9d6"/><circle cx="54" cy="70" r="11" fill="#0b0c0f"/><circle cx="54" cy="70" r="6" fill="#c9ccd3"/><circle cx="148" cy="70" r="11" fill="#0b0c0f"/><circle cx="148" cy="70" r="6" fill="#c9ccd3"/></svg>'}
+function calc(car,d,ins,ex){var dia=car.p*d,seg=INS[ins].d*d,e=(ex.del?DEL:0)+(ex.drv?DRV*d:0),base=dia+seg+e,tx=Math.round(base*FEE);return{dia:dia,seg:seg,ext:e,tx:tx,tot:base+tx,cau:car.d}}
+function theme(){var r=document.documentElement,cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");var n=cur==="dark"?"light":"dark";r.setAttribute("data-theme",n);sv("exd_theme",n)}
+function mine(){return ld("exd_bookings",[]).filter(function(x){return x.r}).filter(function(b){return b.user===S.user})}
+function go(i){if(i>0&&!S.user)i=0;S.scr=i;render()}
+function render(){var i=S.scr,h="",n=mine().filter(function(b){return b.status==="ativa"}).length;
+$("steps").innerHTML=i<6?[0,1,2,3,4,5].map(function(k){return'<i class="'+(k<=i?"on":"")+'"></i>'}).join(""):"";
+$("bk").style.display=S.user?"":"none";$("cnt").textContent=n||"";$("cnt").style.display=n?"":"none";
+h=[vLogin,vSearch,vList,vDetail,vSim,vDone,vBookings][i]();$("app").innerHTML=h;window.scrollTo(0,0)}
+function vLogin(){return'<div class="hero im">'+svg(CARS[1],"h")+'</div><h2>Alugue o carro dos seus sonhos.</h2><p class="mut">Seguro incluso, total na tela e caução só pré-autorizada.</p>'+
+'<div><label for="em">E-mail</label><input id="em" type="email" placeholder="voce@email.com" autocomplete="username"></div>'+
+'<div><label for="pw">Senha</label><input id="pw" type="password" placeholder="••••••••" autocomplete="current-password"></div><p class="err" id="er" role="alert"></p>'+
+'<div class="grow"><button class="btn" onclick="login()">Entrar</button><button class="btn sec" onclick="demo()">Acesso rápido (conta demo)</button></div>'}
+function demo(){$("em").value="demo@exoticdrive.com";$("pw").value="demo123";$("er").textContent="Credenciais demo preenchidas. Toque em Entrar."}
+function login(){var e=$("em").value.trim(),p=$("pw").value;
+if(!/^\S+@\S+\.\S+$/.test(e)){$("er").textContent="Digite um e-mail válido.";return}
+if(p.length<4){$("er").textContent="A senha precisa ter pelo menos 4 caracteres.";return}
+S.user=e;sv("exd_user",e);toast("Bem-vindo à Exotic Drive");go(1)}
+function logout(){S.user=null;sv("exd_user",null);go(0)}
+function vSearch(){return'<h2>Para onde e quando você quer dirigir?</h2><p class="mut">Olá, '+esc(S.user)+'</p>'+
+'<div><label for="ci">Cidade de retirada</label><select id="ci"><option'+(S.city==="Recife – PE"?" selected":"")+'>Recife – PE</option><option'+(S.city!=="Recife – PE"?" selected":"")+'>São Paulo – SP</option></select></div>'+
+'<div class="grid"><div><label for="d1">Retirada</label><input id="d1" type="date" min="'+iso(0)+'" value="'+S.d1+'"></div><div><label for="d2">Devolução</label><input id="d2" type="date" min="'+iso(0)+'" value="'+S.d2+'"></div></div><p class="err" id="er" role="alert"></p>'+
+'<div class="grow"><button class="btn" onclick="search()">Buscar carros</button><button class="btn sec" onclick="logout()">Sair</button></div>'}
+function search(){var a=$("d1").value,b=$("d2").value;S.city=$("ci").value;
+if(!a||!b){$("er").textContent="Escolha as datas de retirada e devolução.";return}
+if(days(a,b)<1){$("er").textContent="A devolução precisa ser depois da retirada.";return}
+S.d1=a;S.d2=b;S.cat="Todos";go(2)}
+function setCat(c){S.cat=c;render()}
+function setSort(v){S.sort=v;render()}
+function vList(){var d=days(S.d1,S.d2),L=CARS.filter(function(c){return S.cat==="Todos"||c.c.indexOf(S.cat)>-1});
+if(S.sort==="asc")L.sort(function(a,b){return a.p-b.p});if(S.sort==="desc")L.sort(function(a,b){return b.p-a.p});if(S.sort==="hp")L.sort(function(a,b){return b.hp-a.hp});
+var h='<h2>'+L.length+(L.length===1?" carro":" carros")+' em '+esc(S.city)+'</h2><p class="mut">'+fdate(S.d1)+' a '+fdate(S.d2)+' · '+d+(d>1?" diárias":" diária")+'</p><div class="chips">'+
+["Todos","Esportivo","Conversível","Elétrico"].map(function(c){return'<button class="chip'+(S.cat===c?" on":"")+'" aria-pressed="'+(S.cat===c)+'" onclick="setCat(\''+c+'\')">'+c+'</button>'}).join("")+'</div>'+
+'<div><label for="so">Ordenar por</label><select id="so" onchange="setSort(this.value)"><option value="rec"'+(S.sort==="rec"?" selected":"")+'>Recomendados</option><option value="asc"'+(S.sort==="asc"?" selected":"")+'>Menor preço</option><option value="desc"'+(S.sort==="desc"?" selected":"")+'>Maior preço</option><option value="hp"'+(S.sort==="hp"?" selected":"")+'>Mais potência</option></select></div>';
+L.forEach(function(c){var t=calc(c,d,"prem",{del:false,drv:false}).tot;h+='<button class="car" onclick="pick(\''+c.id+'\')"><span class="rel im">'+svg(c,"l")+'<span class="badge">'+c.hp+' cv</span></span><span class="inf"><span><b>'+esc(c.n)+'</b><br><span class="mut">'+c.c.join(" · ")+' · '+c.s+' lugares</span></span><span class="pr">'+money(c.p)+'/dia<small>~'+money(t)+' no total</small></span></span></button>'});
+return h+'<div class="grow"><button class="btn sec" onclick="go(1)">Voltar</button></div>'}
+function pick(id){S.car=carById(id);S.ex={del:false,drv:false};go(3)}
+function vDetail(){var c=S.car,d=days(S.d1,S.d2);return'<div class="hero im">'+svg(c,"d")+'</div><h2>'+esc(c.n)+'</h2><div class="chips">'+c.c.map(function(x){return'<span class="chip">'+x+'</span>'}).join("")+'<span class="chip">Seguro incluso</span></div>'+
+'<div class="grid"><div class="spec"><small>Potência</small><b>'+c.hp+' cv</b></div><div class="spec"><small>Câmbio</small><b>'+c.t+'</b></div><div class="spec"><small>Lugares</small><b>'+c.s+'</b></div><div class="spec"><small>Km livre</small><b>'+c.k+' km/dia</b></div></div>'+
+'<div><h3 style="font-size:24px;margin-bottom:4px">Ficha técnica</h3>'+c.ft.map(function(f){return'<div class="row"><span class="mut">'+f[0]+'</span><b>'+esc(f[1])+'</b></div>'}).join("")+'<p class="mut" style="margin-top:8px">Valores de referência do fabricante. Podem variar conforme versão e ano do carro.</p></div>'+'<div><div class="row"><span>Diária</span><b>'+money(c.p)+'</b></div><div class="row"><span>Caução reembolsável</span><span>'+money(c.d)+'</span></div><div class="row"><span>Destaque</span><span>'+esc(c.sp)+'</span></div><div class="row"><span>Retirada</span><span>'+esc(S.city)+' · '+d+(d>1?" diárias":" diária")+'</span></div></div>'+
+'<div class="grow"><button class="btn" onclick="go(4)">Simular aluguel</button><button class="btn sec" onclick="go(2)">Voltar</button></div>'}
+function setIns(k){S.ins=k;render()}
+function tgl(k){S.ex[k]=!S.ex[k];render()}
+function vSim(){var c=S.car,d=days(S.d1,S.d2),r=calc(c,d,S.ins,S.ex);
+return'<h2>Simulação</h2><p class="mut">'+esc(c.n)+' · '+fdate(S.d1)+' a '+fdate(S.d2)+'</p>'+
+'<div><label>Seguro</label><div class="seg">'+Object.keys(INS).map(function(k){return'<button class="chip'+(S.ins===k?" on":"")+'" aria-pressed="'+(S.ins===k)+'" onclick="setIns(\''+k+'\')">'+INS[k].n+'<br>'+money(INS[k].d)+'/dia</button>'}).join("")+'</div></div>'+
+'<div><label>Extras</label><div class="seg"><button class="chip'+(S.ex.del?" on":"")+'" aria-pressed="'+S.ex.del+'" onclick="tgl(\'del\')">Entrega no endereço<br>'+money(DEL)+'</button><button class="chip'+(S.ex.drv?" on":"")+'" aria-pressed="'+S.ex.drv+'" onclick="tgl(\'drv\')">2º motorista<br>'+money(DRV)+'/dia</button></div></div>'+
+rows(r,d,c,S.ins)+'<p class="mut">Caução de '+money(r.cau)+' pré-autorizada no cartão, separada do total e sem cobrança.</p>'+
+'<div class="grow"><button class="btn" onclick="confirmBk()">Confirmar reserva</button><button class="btn sec" onclick="go(3)">Voltar</button></div>'}
+function rows(r,d,c,ins){return'<div><div class="row"><span>Diárias ('+d+' × '+money(c.p)+')</span><span>'+money(r.dia)+'</span></div><div class="row"><span>Seguro '+INS[ins].n.toLowerCase()+'</span><span>'+money(r.seg)+'</span></div>'+(r.ext?'<div class="row"><span>Extras</span><span>'+money(r.ext)+'</span></div>':'')+'<div class="row"><span>Taxa de serviço (4%)</span><span>'+money(r.tx)+'</span></div><div class="row tot"><span>Total</span><span>'+money(r.tot)+'</span></div></div>'}
+function confirmBk(){var c=S.car,d=days(S.d1,S.d2),r=calc(c,d,S.ins,S.ex),L=ld("exd_bookings",[]).filter(function(x){return x.r}),code;
+do{code="EXD-"+Math.floor(1000+Math.random()*9000)}while(L.some(function(b){return b.code===code}));
+var b={code:code,user:S.user,car:c.id,city:S.city,d1:S.d1,d2:S.d2,days:d,ins:S.ins,ex:{del:S.ex.del,drv:S.ex.drv},r:r,total:r.tot,caucao:r.cau,status:"ativa",at:new Date().toISOString()};
+L.unshift(b);sv("exd_bookings",L);S.last=b;toast("Reserva "+code+" confirmada");go(5)}
+function policy(b){var h=(new Date(b.d1+"T00:00:00")-Date.now())/36e5,c=carById(b.car);if(h>=48)return{free:true,fee:0,refund:b.total};var fee=Math.min(c.p,b.total);return{free:false,fee:fee,refund:b.total-fee}}
+function vDone(){var b=S.last,c=carById(b.car),on=b.status==="ativa",d=b.days;
+return(on?'<svg class="chk" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><path d="M19 33 l9 9 l18 -20"/></svg><h2 class="ok" style="text-align:center">Reserva confirmada</h2>':'<h2>Reserva cancelada</h2>')+
+'<div class="ticket"><p class="mut">Código da reserva</p><div class="code">'+b.code+'</div><span class="st'+(on?"":" c")+'">'+(on?"ATIVA":"CANCELADA")+'</span></div>'+
+'<div class="im hero">'+svg(c,"v")+'</div><div><div class="row"><span>Carro</span><b>'+esc(c.n)+'</b></div><div class="row"><span>Retirada</span><span>'+esc(b.city)+' · '+fdate(b.d1)+'</span></div><div class="row"><span>Devolução</span><span>'+fdate(b.d2)+' ('+d+(d>1?" diárias":" diária")+')</span></div></div>'+rows(b.r,d,c,b.ins)+'<div class="row"><span>Caução (pré-autorização)</span><span>'+money(b.caucao)+'</span></div>'+
+(on?'':'<div class="note">Reembolso de '+money(b.refund)+(b.fee?' · multa de '+money(b.fee)+' (1 diária)':' · sem multa')+'</div>')+
+'<div class="grow"><button class="btn" onclick="go(6)">Ver minhas reservas</button>'+(on?'<button class="btn sec" onclick="askCancel(\''+b.code+'\')">Cancelar reserva</button>':'')+'<button class="btn sec" onclick="go(1)">Nova busca</button></div>'}
+function setTab(t){S.tab=t;render()}
+function vBookings(){var A=mine(),L=A.filter(function(b){return S.tab==="Todas"||(S.tab==="Ativas"?b.status==="ativa":b.status!=="ativa")}),
+h='<h2>Minhas reservas</h2><div class="chips">'+["Todas","Ativas","Canceladas"].map(function(t){return'<button class="chip'+(S.tab===t?" on":"")+'" aria-pressed="'+(S.tab===t)+'" onclick="setTab(\''+t+'\')">'+t+'</button>'}).join("")+'</div>';
+if(!L.length)h+='<p class="mut">'+(A.length?"Nenhuma reserva nesta aba.":"Você ainda não tem reservas. Busque um carro para começar.")+'</p>';
+L.forEach(function(b){var c=carById(b.car),on=b.status==="ativa";
+h+='<div class="bk"><div class="t"><span class="im">'+svg(c,"b"+b.code)+'</span><span><b>'+esc(c.n)+'</b><br><span class="mut">'+fdate(b.d1)+' a '+fdate(b.d2)+'</span></span></div><div class="row" style="border:0;padding:0"><b>'+b.code+' · '+money(b.total)+'</b><span class="st'+(on?"":" c")+'">'+(on?"ATIVA":"CANCELADA")+'</span></div>'+
+'<div class="seg"><button class="chip" onclick="view(\''+b.code+'\')">Ver detalhes</button><button class="chip" onclick="redo(\''+b.code+'\')">Refazer</button>'+(on?'<button class="chip" onclick="askCancel(\''+b.code+'\')">Cancelar</button>':'')+'</div></div>'});
+return h+'<div class="grow"><button class="btn sec" onclick="go(1)">Nova busca</button></div>'}
+function find(code){return ld("exd_bookings",[]).filter(function(x){return x.r}).filter(function(x){return x.code===code})[0]}
+function view(code){S.last=find(code);go(5)}
+function askCancel(code){var b=find(code),p=policy(b),c=carById(b.car);
+$("modal").innerHTML='<div class="ov" onclick="closeM()"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="mt" onclick="event.stopPropagation()"><h3 id="mt" style="font-size:28px">Cancelar reserva '+b.code+'?</h3><p class="mut">'+esc(c.n)+' · '+fdate(b.d1)+' a '+fdate(b.d2)+'</p>'+
+'<div class="note">'+(p.free?'Cancelamento gratuito: você recebe '+money(p.refund)+' de volta.':'Faltam menos de 48 h para a retirada. Será cobrada 1 diária ('+money(p.fee)+') e você recebe '+money(p.refund)+' de volta.')+'</div>'+
+'<button class="btn dng" onclick="doCancel(\''+code+'\')">Sim, cancelar reserva</button><button class="btn sec" onclick="closeM()" id="keep">Manter reserva</button></div></div>';$("keep").focus()}
+function closeM(){$("modal").innerHTML=""}
+function doCancel(code){var L=ld("exd_bookings",[]).filter(function(x){return x.r});L.forEach(function(b){if(b.code===code){var p=policy(b);b.status="cancelada";b.fee=p.fee;b.refund=p.refund;b.canceledAt=new Date().toISOString()}});sv("exd_bookings",L);closeM();
+if(S.scr===5)S.last=find(code);toast("Reserva "+code+" cancelada");render()}
+function redo(code){var b=find(code);S.car=carById(b.car);S.city=b.city;S.d1=b.d1;S.d2=b.d2;S.ins=b.ins;S.ex={del:b.ex.del,drv:b.ex.drv};go(4)}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeM()});
+(function(){var t=ld("exd_theme",null);if(t)document.documentElement.setAttribute("data-theme",t);
+$("brandcar").innerHTML=svg(CARS[0],"br");S.user=ld("exd_user",null);S.d1=iso(1);S.d2=iso(4);S.scr=S.user?1:0;render()})();
+</script></body></html>
